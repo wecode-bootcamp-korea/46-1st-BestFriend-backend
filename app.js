@@ -5,7 +5,7 @@ const cors = require("cors");
 const logger = require("morgan");
 const http = require("http");
 const routes = require("./routes");
-const { appDataSource } = require("./models/dataSource");
+const appDataSource = require("./models/dataSource");
 const app = express();
 
 app.use(cors());

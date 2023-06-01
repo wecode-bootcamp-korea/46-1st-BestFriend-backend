@@ -11,6 +11,13 @@ const signUp = catchAsync(async (req, res) => {
     throw error;
   }
 
+  const existingUser = await userService.getUserByEmail(email);
+  if (existingUser) {
+    const error = new Error("Duplicate email");
+    error.statusCode = 409;
+    throw error;
+  }
+
   await userService.signUp(name, email, password, phone, address);
 
   res.status(201).json({ message: "user is created" });

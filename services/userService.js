@@ -6,11 +6,15 @@ const { userDao } = require("../models");
 const hashPassword = async (plaintextPassword) => {
   const saltRounds = 10;
 
-  return await bcrypt.hash(plaintextPassword, saltRounds);
+  return bcrypt.hash(plaintextPassword, saltRounds);
 };
 
 const getUserById = async (id) => {
   return await userDao.getUserById(id);
+};
+
+const getUserByEmail = async (email) => {
+  return await userDao.getUserByEmail(email);
 };
 
 const signUp = async (name, email, password, phone, address) => {
@@ -69,6 +73,7 @@ const signIn = async (email, password) => {
 
 module.exports = {
   signUp,
-  signIn,
   getUserById,
+  getUserByEmail,
+  signIn,
 };

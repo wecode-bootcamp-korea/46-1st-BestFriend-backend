@@ -22,7 +22,7 @@ const getAllProducts = async (subCategoryIds) => {
   }
 };
 
-const getProducts = async (productId) => {
+const getProductsById = async (productId) => {
   try {
     const result = await appDataSource.query(
       `
@@ -49,5 +49,5 @@ const getProducts = async (productId) => {
 
 module.exports = {
   getAllProducts,
-  getProducts,
+  getProductsById,
 };

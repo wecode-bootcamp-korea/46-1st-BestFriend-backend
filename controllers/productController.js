@@ -10,7 +10,7 @@ const getAllProducts = catchAsync(async (req, res) => {
 });
 
 const getProducts = catchAsync(async (req, res) => {
-  const { productId } = req.params;
+  const productId = req.params.productId;
 
   const product = await productService.getProducts(productId);
 

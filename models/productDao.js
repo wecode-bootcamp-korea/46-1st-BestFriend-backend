@@ -27,7 +27,7 @@ const getProducts = async (productId) => {
     const result = await appDataSource.query(
       `
       SELECT
-        sub_categories.name,
+        sub_categories.name as sub_category_name,
         products.image_url,
         products.name,
         products.description,

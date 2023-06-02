@@ -8,9 +8,9 @@ const createCart = async (userId, productId, quantity) => {
         user_id,
         product_id,
         quantity
-      ) VALUE (?, ?, ?)
+      ) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE quantity = quantity + ?
       `,
-      [userId, productId, quantity]
+      [userId, productId, quantity, quantity]
     );
     return result;
   } catch {

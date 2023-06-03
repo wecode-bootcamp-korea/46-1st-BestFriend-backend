@@ -52,8 +52,23 @@ const updateCart = catchAsync(async (req, res) => {
   }
 });
 
+const deleteCart = catchAsync(async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { productId } = req.body;
+
+    await cartService.deleteCart(userId, productId);
+
+    res.status(204).json({ message: "delete Cart " });
+  } catch (error) {
+    console.log(error);
+    res.status(error.statusCode).json({ message: error.message });
+  }
+});
+
 module.exports = {
   createCart,
   getCart,
   updateCart,
+  deleteCart,
 };

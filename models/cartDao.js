@@ -57,6 +57,23 @@ const updateCart = async (userId, productId, quantity) => {
     );
     return result;
   } catch (err) {
+    const error = new Error("dataSource Error");
+    error.statusCode = 400;
+
+    throw error;
+  }
+};
+
+const deleteCart = async (userId, productId) => {
+  try {
+    const result = await appDataSource.query(
+      `DELETE FROM carts
+      WHERE user_id = ? AND product_id = ?
+      `,
+      [userId, productId]
+    );
+    return result;
+  } catch (err) {
     console.log(err);
     const error = new Error("dataSource Error");
     error.statusCode = 400;
@@ -69,4 +86,5 @@ module.exports = {
   createCart,
   getCart,
   updateCart,
+  deleteCart,
 };

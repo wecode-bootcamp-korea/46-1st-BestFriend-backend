@@ -8,7 +8,12 @@ const getCart = async (userId) => {
   return await cartDao.getCart(userId);
 };
 
+const updateCart = async (userId, productId, quantity) => {
+  return await cartDao.updateCart(userId, productId, quantity);
+};
+
 module.exports = {
   createCart,
   getCart,
+  updateCart,
 };

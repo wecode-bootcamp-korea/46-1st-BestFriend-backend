@@ -26,6 +26,7 @@ const getCart = async (userId) => {
     const result = await appDataSource.query(
       `
       SELECT
+        carts.product_id,
         products.name,
         products.image_url,
         products.price,
@@ -45,7 +46,27 @@ const getCart = async (userId) => {
   }
 };
 
+const updateCart = async (userId, productId, quantity) => {
+  try {
+    const result = await appDataSource.query(
+      `UPDATE carts
+      SET quantity = ?
+      WHERE user_id = ? AND product_id = ?
+      `,
+      [userId, productId, quantity]
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+    const error = new Error("dataSource Error");
+    error.statusCode = 400;
+
+    throw error;
+  }
+};
+
 module.exports = {
   createCart,
   getCart,
+  updateCart,
 };

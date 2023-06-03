@@ -21,6 +21,31 @@ const createCart = async (userId, productId, quantity) => {
   }
 };
 
+const getCart = async (userId) => {
+  try {
+    const result = await appDataSource.query(
+      `
+      SELECT
+        products.name,
+        products.image_url,
+        products.price,
+        carts.quantity
+      FROM carts
+      INNER JOIN products ON products.id = carts.product_id
+      WHERE user_id = ?
+      `,
+      [userId]
+    );
+    return result;
+  } catch {
+    const error = new Error("dataSource Error");
+    error.statusCode = 400;
+
+    throw error;
+  }
+};
+
 module.exports = {
   createCart,
+  getCart,
 };

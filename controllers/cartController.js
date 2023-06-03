@@ -25,6 +25,20 @@ const createCart = catchAsync(async (req, res) => {
   }
 });
 
+const getCart = catchAsync(async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const carts = await cartService.getCart(userId);
+
+    res.status(201).json({ carts });
+  } catch (error) {
+    console.log(error);
+    res.status(error.statusCode).json({ message: error.message });
+  }
+});
+
 module.exports = {
   createCart,
+  getCart,
 };

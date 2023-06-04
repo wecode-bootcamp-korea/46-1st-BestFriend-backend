@@ -26,6 +26,7 @@ const getCart = async (userId) => {
     const result = await appDataSource.query(
       `
       SELECT
+        carts.id,
         carts.product_id,
         products.name,
         products.image_url,
@@ -46,16 +47,30 @@ const getCart = async (userId) => {
   }
 };
 
-const updateCart = async (userId, productId, quantity) => {
+const updateCart = async (userId, cartId, quantity) => {
   try {
-    const result = await appDataSource.query(
+    await appDataSource.query(
       `UPDATE carts
       SET quantity = ?
-      WHERE user_id = ? AND product_id = ?
+      WHERE user_id = ? AND carts.id= ?
       `,
-      [userId, productId, quantity]
+      [quantity, userId, cartId]
     );
-    return result;
+
+    return await appDataSource.query(
+      `
+    SELECT
+      carts.id,
+      products.name,
+      products.image_url,
+      products.price,
+      carts.quantity
+    FROM carts
+    INNER JOIN products ON products.id = carts.product_id
+    WHERE user_id = ?
+    `,
+      [userId]
+    );
   } catch (err) {
     const error = new Error("dataSource Error");
     error.statusCode = 400;
@@ -64,13 +79,13 @@ const updateCart = async (userId, productId, quantity) => {
   }
 };
 
-const deleteCart = async (userId, productId) => {
+const deleteCart = async (userId, cartId) => {
   try {
     const result = await appDataSource.query(
       `DELETE FROM carts
-      WHERE user_id = ? AND product_id = ?
+      WHERE user_id = ? AND carts.id = ?
       `,
-      [userId, productId]
+      [userId, cartId]
     );
     return result;
   } catch (err) {

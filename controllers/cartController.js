@@ -41,11 +41,16 @@ const getCart = catchAsync(async (req, res) => {
 const updateCart = catchAsync(async (req, res) => {
   try {
     const userId = req.user.id;
-    const { productId, quantity } = req.body;
+    const { cartId } = req.params;
+    const { quantity } = req.body;
 
-    await cartService.updateCart(userId, productId, quantity);
+    if (!userId || !cartId || !quantity) {
+      return res.status(400).json({ message: "KEY_ERROR" });
+    }
 
-    res.status(200).json({ message: "Update Cart" });
+    const updateCart = await cartService.updateCart(userId, cartId, quantity);
+
+    res.status(200).json({ updateCart });
   } catch (error) {
     console.log(error);
     res.status(error.statusCode).json({ message: error.message });
@@ -55,9 +60,9 @@ const updateCart = catchAsync(async (req, res) => {
 const deleteCart = catchAsync(async (req, res) => {
   try {
     const userId = req.user.id;
-    const { productId } = req.body;
+    const { cartId } = req.params;
 
-    await cartService.deleteCart(userId, productId);
+    await cartService.deleteCart(userId, cartId);
 
     res.status(204).json({ message: "delete Cart " });
   } catch (error) {

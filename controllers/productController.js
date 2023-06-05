@@ -14,6 +14,7 @@ const getProductList = catchAsync(async (req, res) => {
     subCategoryId,
     isFlowerIncluded,
     isBerryIncluded,
+    search,
     orderBy,
     offset,
     limit,
@@ -23,6 +24,7 @@ const getProductList = catchAsync(async (req, res) => {
     subCategoryId,
     isFlowerIncluded,
     isBerryIncluded,
+    search,
     orderBy,
     offset,
     limit

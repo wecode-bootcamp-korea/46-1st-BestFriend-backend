@@ -38,7 +38,9 @@ const getProductList = async (
   const conditionArr = [];
   let whereQuery = "";
   let sortQuery = "";
-  let limitQuery = `LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`;
+  let limitQuery = `LIMIT ${parseInt(limit) || 9} OFFSET ${
+    parseInt(offset) || 0
+  }`;
 
   if (subCategoryId)
     conditionArr.push(`products.sub_category_id IN (${subCategoryId})`);

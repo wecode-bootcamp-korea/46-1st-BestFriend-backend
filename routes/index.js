@@ -10,7 +10,7 @@ const likeRouter = require("./likeRouter");
 router.use("/products", productRouter.router);
 router.use("/users", userRouter.router);
 router.use("/carts", cartRouter.router);
-router.use("/gallery", galleryRouter.router);
+router.use("/galleries", galleryRouter.router);
 router.use("/likes", likeRouter.router);
 
 module.exports = router;

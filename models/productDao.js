@@ -29,6 +29,7 @@ const getProductList = async (
   subCategoryId,
   isFlowerIncluded,
   isBerryIncluded,
+  search,
   orderBy,
   offset = 0,
   limit = 9
@@ -46,6 +47,8 @@ const getProductList = async (
 
   if (isBerryIncluded)
     conditionArr.push(`products.is_berry_included IN (${isBerryIncluded})`);
+
+  if (search) conditionArr.push(`products.name LIKE '%${search}%'`);
 
   if (!!conditionArr.length)
     whereQuery = `WHERE` + ` ` + conditionArr.join(" AND ");

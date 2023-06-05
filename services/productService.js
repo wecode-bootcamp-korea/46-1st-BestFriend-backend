@@ -8,6 +8,7 @@ const getProductList = async (
   subCategoryId,
   isFlowerIncluded,
   isBerryIncluded,
+  search,
   orderBy,
   offset,
   limit
@@ -16,6 +17,7 @@ const getProductList = async (
     subCategoryId,
     isFlowerIncluded,
     isBerryIncluded,
+    search,
     orderBy,
     offset,
     limit

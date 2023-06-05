@@ -31,7 +31,7 @@ const getCart = catchAsync(async (req, res) => {
 
     const carts = await cartService.getCart(userId);
 
-    res.status(201).json({ carts });
+    res.status(200).json({ carts });
   } catch (error) {
     console.log(error);
     res.status(error.statusCode).json({ message: error.message });
@@ -64,7 +64,7 @@ const deleteCart = catchAsync(async (req, res) => {
 
     await cartService.deleteCart(userId, cartId);
 
-    res.status(204).json({ message: "delete Cart " });
+    res.status(204).json();
   } catch (error) {
     console.log(error);
     res.status(error.statusCode).json({ message: error.message });

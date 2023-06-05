@@ -51,7 +51,7 @@ const getProductList = async (
     whereQuery = `WHERE` + ` ` + conditionArr.join(" AND ");
 
   switch (orderBy) {
-    case "priceACS":
+    case "priceASC":
       sortQuery = `ORDER BY products.price ASC`;
       break;
     case "priceDESC":

@@ -30,17 +30,13 @@ const getProductList = async (
   isFlowerIncluded,
   isBerryIncluded,
   orderBy,
-  offset,
-  limit
+  offset = 0,
+  limit = 9
 ) => {
-  // const appDataSource = getConnection();
-
   const conditionArr = [];
   let whereQuery = "";
   let sortQuery = "";
-  let limitQuery = `LIMIT ${parseInt(limit) || 9} OFFSET ${
-    parseInt(offset) || 0
-  }`;
+  let limitQuery = `LIMIT ${parseInt(limit)} OFFSET ${parseInt(offset)}`;
 
   if (subCategoryId)
     conditionArr.push(`products.sub_category_id IN (${subCategoryId})`);

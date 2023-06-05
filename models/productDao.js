@@ -51,7 +51,7 @@ const getProductList = async (
     whereQuery = `WHERE` + ` ` + conditionArr.join(" AND ");
 
   switch (orderBy) {
-    case "priceACS":
+    case "priceASC":
       sortQuery = `ORDER BY products.price ASC`;
       break;
     case "priceDESC":
@@ -62,19 +62,41 @@ const getProductList = async (
       break;
   }
 
-  const list = await appDataSource.query(
-    `SELECT
-        image_url,
-        name,
-        price
-      FROM products
+  const total_count = await appDataSource.query(`
+    SELECT SQL_CALC_FOUND_ROWS
+      id,
+      image_url,
+      name,
+      price
+    FROM products
+    ${whereQuery}
+    ${sortQuery}
+    `);
+
+  const list = await appDataSource.query(`SELECT
+      FOUND_ROWS() AS total_count,
+      id,
+      image_url,
+      name,
+      price
+    FROM products
       ${whereQuery}
       ${sortQuery}
       ${limitQuery}
-        `
-  );
+        `);
 
-  return list;
+  const totalCount = list[0].total_count;
+  const productList = list.map((product) => ({
+    id: product.id,
+    image_url: product.image_url,
+    name: product.name,
+    price: product.price,
+  }));
+
+  return {
+    total_count: totalCount,
+    list: productList,
+  };
 };
 
 module.exports = {

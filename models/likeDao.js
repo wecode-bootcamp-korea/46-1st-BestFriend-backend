@@ -43,6 +43,7 @@ const getLike = async (userId) => {
     const result = await appDataSource.query(
       `
     SELECT
+      products.id,
       products.name,
       products.image_url,
       products.price

@@ -67,6 +67,7 @@ const getProductList = async (
 
   const total_count = await appDataSource.query(`
     SELECT SQL_CALC_FOUND_ROWS
+      sub_category_id,
       id,
       image_url,
       name,
@@ -78,6 +79,7 @@ const getProductList = async (
 
   const list = await appDataSource.query(`SELECT
       FOUND_ROWS() AS total_count,
+      sub_category_id,
       id,
       image_url,
       name,

@@ -35,7 +35,16 @@ const signIn = async (req, res) => {
   }
 };
 
+const userInfo = catchAsync(async (req, res) => {
+  const userId = req.user.id;
+
+  const userInfo = await userService.userInfo(userId);
+
+  return res.json(userInfo);
+});
+
 module.exports = {
   signUp,
   signIn,
+  userInfo,
 };

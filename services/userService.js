@@ -71,9 +71,14 @@ const signIn = async (email, password) => {
   return accessToken;
 };
 
+const userInfo = async (userId) => {
+  return await userDao.userInfo(userId);
+};
+
 module.exports = {
   signUp,
   getUserById,
   getUserByEmail,
   signIn,
+  userInfo,
 };

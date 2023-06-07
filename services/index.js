@@ -3,6 +3,7 @@ const userService = require("./userService");
 const cartService = require("./cartService");
 const galleryService = require("./galleryService");
 const likeService = require("./likeService");
+const orderService = require("./orderService");
 
 module.exports = {
   productService,
@@ -10,4 +11,5 @@ module.exports = {
   cartService,
   galleryService,
   likeService,
+  orderService,
 };

@@ -92,6 +92,7 @@ const getProductList = async (
 
   const totalCount = list[0].total_count;
   const productList = list.map((product) => ({
+    sub_category_id: product.sub_category_id,
     id: product.id,
     image_url: product.image_url,
     name: product.name,

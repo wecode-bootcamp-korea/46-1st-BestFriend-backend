@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/:productId", loginRequired, reviewController.createReview);
 router.delete("/:reviewId", reviewController.deleteReview);
-router.get("/:productId", loginRequired, reviewController.getReview);
+router.get("/:productId", reviewController.getReview);
 
 module.exports = {
   router,

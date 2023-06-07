@@ -24,10 +24,9 @@ const deleteReview = catchAsync(async (req, res) => {
 });
 
 const getReview = catchAsync(async (req, res) => {
-  const userId = req.user.id;
   const { productId } = req.params;
 
-  const Review = await reviewService.getReview(userId, productId);
+  const Review = await reviewService.getReview(productId);
 
   res.status(200).json({ Review });
 });

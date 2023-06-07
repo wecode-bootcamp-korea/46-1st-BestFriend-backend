@@ -1,28 +1,5 @@
 const appDataSource = require("./dataSource");
 
-const getOrderUserInfo = async (userId) => {
-  try {
-    const result = await appDataSource.query(
-      `
-      SELECT
-        name,
-        address,
-        phone,
-        point
-      FROM users
-      WHERE id =?`,
-      [userId]
-    );
-
-    return result;
-  } catch {
-    const error = new Error("dataSource Error");
-    error.statusCode = 400;
-
-    throw error;
-  }
-};
-
 const createOrder = async (userId, orderNumber, totalPrice) => {
   const queryRunner = appDataSource.createQueryRunner();
 
@@ -31,14 +8,14 @@ const createOrder = async (userId, orderNumber, totalPrice) => {
   try {
     await queryRunner.startTransaction();
 
-    let userPoint = await appDataSource.query(
+    let [userPoint] = await appDataSource.query(
       `SELECT point FROM users WHERE id =?`,
       [userId]
     );
-    userPoint = userPoint[0].point;
+    userPoint = userPoint.point;
 
     if (totalPrice > userPoint) {
-      const error = new Error("NEED_POINT_CHARGE");
+      const error = new Error("NOT_ENOUGH_POINTS");
       error.statusCode = 400;
 
       throw error;
@@ -68,21 +45,22 @@ const createOrder = async (userId, orderNumber, totalPrice) => {
       [userId]
     );
 
-    for (const cartItem of cartItems) {
+    const orderItemsValues = cartItems.map((cartItem) => {
       const { product_id, quantity, price } = cartItem;
       const product_total_price = quantity * price;
+      return [orderId, product_id, quantity, product_total_price];
+    });
 
-      await queryRunner.query(
-        `
-        INSERT INTO order_items(
-          order_id,
-          product_id,
-          quantity,
-          total_price
-        ) VALUES(?, ?, ?, ?)`,
-        [orderId, product_id, quantity, product_total_price]
-      );
-    }
+    await queryRunner.query(
+      `
+      INSERT INTO order_items (
+        order_id,
+        product_id,
+        quantity,
+        total_price
+      ) VALUES ?`,
+      [orderItemsValues]
+    );
 
     const changePoint = userPoint - totalPrice;
 
@@ -94,8 +72,10 @@ const createOrder = async (userId, orderNumber, totalPrice) => {
 
     await queryRunner.query(
       `
-      DELETE FROM carts WHERE user_id = ?`,
-      [userId]
+      DELETE FROM carts WHERE user_id = ? AND product_id IN (
+        SELECT product_id FROM order_items WHERE order_id = ?
+      )`,
+      [userId, orderId]
     );
 
     await queryRunner.commitTransaction();
@@ -112,6 +92,5 @@ const createOrder = async (userId, orderNumber, totalPrice) => {
 };
 
 module.exports = {
-  getOrderUserInfo,
   createOrder,
 };

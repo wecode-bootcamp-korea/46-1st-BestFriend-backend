@@ -78,10 +78,15 @@ const createOrder = async (userId, orderNumber, totalPrice) => {
       [userId, orderId]
     );
 
+    const response = {
+      orderId,
+      changePoint,
+    };
+
     await queryRunner.commitTransaction();
 
     return {
-      orderId,
+      response,
     };
   } catch (err) {
     await queryRunner.rollbackTransaction();

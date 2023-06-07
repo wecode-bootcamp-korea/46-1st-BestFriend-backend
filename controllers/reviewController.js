@@ -17,11 +17,11 @@ const createReview = catchAsync(async (req, res) => {
 
 const deleteReview = catchAsync(async (req, res) => {
   const userId = req.user.id;
-  const { productId } = req.params;
+  const { reviewId } = req.params;
 
-  const deleteReview = await reviewService.deleteReview(userId, productId);
+  const deleteReview = await reviewService.deleteReview(userId, reviewId);
 
-  res.status(204).json({ message: "Delete Review" });
+  res.status(204).json();
 });
 
 const getReview = catchAsync(async (req, res) => {

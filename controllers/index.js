@@ -4,6 +4,7 @@ const cartController = require("./cartController");
 const galleryController = require("./galleryController");
 const likeController = require("./likeController");
 const reviewController = require("./reviewController");
+const orderController = require("./orderController");
 
 module.exports = {
   userController,
@@ -12,4 +13,5 @@ module.exports = {
   galleryController,
   likeController,
   reviewController,
+  orderController,
 };

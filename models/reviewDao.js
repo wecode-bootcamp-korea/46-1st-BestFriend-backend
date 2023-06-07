@@ -22,14 +22,14 @@ const createReview = async (userId, productId, comment) => {
   }
 };
 
-const deleteReview = async (userId, reviewId) => {
+const deleteReview = async (reviewId) => {
   try {
     const result = await appDataSource.query(
       `
     DELETE FROM reviews
-    WHERE user_id = ? AND id = ?
+    WHERE id = ?
     `,
-      [userId, reviewId]
+      [reviewId]
     );
     return result;
   } catch (err) {

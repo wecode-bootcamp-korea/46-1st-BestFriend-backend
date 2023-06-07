@@ -71,8 +71,32 @@ const getUserById = async (id) => {
   }
 };
 
+const userInfo = async (userId) => {
+  try {
+    const result = await appDataSource.query(
+      `
+      SELECT
+        name,
+        address,
+        phone,
+        point
+      FROM users
+      WHERE id =?`,
+      [userId]
+    );
+
+    return result;
+  } catch {
+    const error = new Error("dataSource Error");
+    error.statusCode = 400;
+
+    throw error;
+  }
+};
+
 module.exports = {
   createUser,
   getUserByEmail,
   getUserById,
+  userInfo,
 };

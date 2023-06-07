@@ -4,8 +4,8 @@ const createReview = async (userId, productId, comment) => {
   return await reviewDao.createReview(userId, productId, comment);
 };
 
-const deleteReview = async (userId, reviewId) => {
-  return await reviewDao.deleteReview(userId, reviewId);
+const deleteReview = async (reviewId) => {
+  return await reviewDao.deleteReview(reviewId);
 };
 
 const getReview = async (productId) => {

@@ -16,10 +16,9 @@ const createReview = catchAsync(async (req, res) => {
 });
 
 const deleteReview = catchAsync(async (req, res) => {
-  const userId = req.user.id;
   const { reviewId } = req.params;
 
-  const deleteReview = await reviewService.deleteReview(userId, reviewId);
+  const deleteReview = await reviewService.deleteReview(reviewId);
 
   res.status(204).json();
 });

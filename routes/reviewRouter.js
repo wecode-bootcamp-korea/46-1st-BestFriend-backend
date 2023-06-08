@@ -5,7 +5,7 @@ const { loginRequired } = require("../utils/auth");
 const router = express.Router();
 
 router.post("/:productId", loginRequired, reviewController.createReview);
-router.delete("/:reviewId", reviewController.deleteReview);
+router.delete("/:reviewId", loginRequired, reviewController.deleteReview);
 router.get("/:productId", reviewController.getReview);
 
 module.exports = {
